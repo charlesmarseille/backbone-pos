@@ -1,0 +1,408 @@
+#:kivy 1.11.0
+
+<MainScreen>:
+    size_hint: 1, 1
+    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+	tab_width: self.width / 3
+	do_default_tab: False
+
+    TabbedPanelItem:
+        text: 'Nouvelle Facture'
+		GridLayout:
+			cols: 1
+			rows: 9
+
+			NomClient:
+				size_hint_y: None
+				height: 50
+
+			HSeparator
+
+			MenuVente:
+				id: MV
+				size_hint_y: None
+				height: 50
+
+			HSeparator
+
+			EnteteFacture:
+				size_hint_y: None
+				height: 50
+
+			HSeparator
+
+			ListeFacture
+
+			HSeparator
+
+			FinNouvelleFacture:
+				size_hint_y: None
+				height: 50
+
+    TabbedPanelItem:
+        text: 'Modifier une facture'
+        GridLayout:
+			cols: 1
+			rows: 9
+
+			ChoixNomClient:
+				size_hint_y: None
+				height: 50
+
+			HSeparator
+
+			MenuVente:
+				size_hint_y: None
+				height: 50
+
+			HSeparator
+
+			EnteteFacture:
+				size_hint_y: None
+				height: 50
+
+			HSeparator
+
+			ListeFactureVide
+
+			HSeparator
+
+			FinModifFacture:
+				size_hint_y: None
+				height: 50
+
+    TabbedPanelItem:
+        text: 'STATS'
+        FloatLayout:
+            Image:
+                size: (1,1)
+                pos_hint: {'x': 0, 'y': 0}
+                id: graphique
+                source: 'graph.png'
+
+            SmoothButton:
+                text: 'semaine'
+                size_hint: [ .3, .08]
+                pos_hint: {'right': 1, 'y': 0.7}
+                font_name: 'RobotoMono-Regular'
+                on_release: root.changer_image(self)
+
+            TransSeparator:
+                size_hint: [ .3, .01]
+                pos_hint: {'right': 1, 'y': 0.68}
+
+            SmoothButton:
+                text: 'mois'
+                size_hint: [ .3, .08]
+                pos_hint: {'right': 1, 'y': 0.58}
+                font_name: 'RobotoMono-Regular'
+                on_release: root.changer_image(self)
+
+            TransSeparator:
+                size_hint: [ .3, .01]
+                pos_hint: {'right': 1, 'y': 0.56}
+
+            SmoothButton:
+                text: 'année'
+                size_hint: [ .3, .08]
+                pos_hint: {'right': 1, 'y': 0.46}
+                font_name: 'RobotoMono-Regular'
+                on_release: root.changer_image(self)
+
+
+            SmoothButton:
+                text: 'Enregistrer sous...'
+                size_hint: [ .3, .1]
+                pos_hint: {'right': 1, 'bottom': 0.1}
+                font_name: 'RobotoMono-Regular'
+                on_release: root.enregistrer_image()
+
+
+<SmoothButton@Button>:
+    background_color: (0,0,0,0)
+    background_normal: ''
+    back_color: (0.3,0.4,0.6,1)
+    border_radius: [30]
+    canvas.before:
+        Color:
+            rgba: self.back_color
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: self.border_radius
+
+
+<TransSeparator@Widget>:
+    canvas:
+        Color:
+            rgba: 0, 0, 0, 0
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+
+<NomClient@GridLayout>:
+	cols: 2
+	rows: 1
+	Label:
+		size_hint_x: None
+		width: 150
+		text: 'Nom du client :'
+	TextInput:
+		text: 'Client N'
+
+
+<ChoixNomClient@GridLayout>:
+	cols: 2
+	rows: 1
+	Label:
+		size_hint_x: None
+		width: 150
+		text: 'Nom du client :'
+	Spinner:
+		text: 'Choisir le client'
+
+
+<EnteteFacture@GridLayout>:
+	cols: 9
+	rows: 1
+	VSeparator
+	Label:
+		text: 'Item'
+	VSeparator
+	Label:
+		size_hint_x: None
+		width: 80
+		text: 'Qtee'
+	VSeparator
+	Label:
+		size_hint_x: None
+		width: 80
+		text: 'Prix'
+	VSeparator
+	Label:
+		size_hint_x: None
+		width: 50
+		text: 'Supp.'
+	VSeparator
+
+
+<NomClient2@GridLayout>:
+	cols: 2
+	rows: 1
+	Label:
+		size_hint_x: None
+		width: 150
+		text: 'Nom du client :'
+	TextInput:
+		text: 'Client N'
+
+
+<ChoixNomClient2@GridLayout>:
+	cols: 2
+	rows: 1
+	Label:
+		size_hint_x: None
+		width: 150
+		text: 'Nom du client :'
+	Spinner:
+		text: 'Choisir le client'
+
+
+<ItemFacture@GridLayout>:
+	cols: 4
+	row: 1
+	padding: 1,1,1,1
+	TextInput:
+		text: '...'
+	GridLayout:
+		cols: 2
+		rows: 1
+		size_hint_x: None
+		width: 80
+		TextInput:
+			size_hint_x: None
+			width: 55
+		GridLayout:
+			cols: 1
+			rows: 2
+			Button:
+				text: '+'
+			Button:
+				text: '-'
+	TextInput:
+		size_hint_x: None
+		width: 80
+	Button:
+		size_hint_x: None
+		width: 50
+		text: 'x'
+
+
+<ListeFactureVide@ScrollView>:
+	do_scroll_x: False
+	do_scroll_y: True
+	GridLayout:
+		cols: 1
+		rows: 20
+		size_hint_y: None
+		height: 20*50
+
+
+<ListeFacture@ScrollView>:
+	do_scroll_x: False
+	do_scroll_y: True
+	GridLayout:
+		cols: 1
+		rows: 20
+		size_hint_y: None
+		height: 20*50
+		ItemFacture:
+			size_hint_y: None
+			height: 50
+		ItemFacture:
+			size_hint_y: None
+			height: 50
+		ItemFacture:
+			size_hint_y: None
+			height: 50
+		ItemFacture:
+			size_hint_y: None
+			height: 50
+		ItemFacture:
+			size_hint_y: None
+			height: 50
+		ItemFacture:
+			size_hint_y: None
+			height: 50
+		ItemFacture:
+			size_hint_y: None
+			height: 50
+		ItemFacture:
+			size_hint_y: None
+			height: 50
+		ItemFacture:
+			size_hint_y: None
+			height: 50
+		ItemFacture:
+			size_hint_y: None
+			height: 50
+		ItemFacture:
+			size_hint_y: None
+			height: 50
+		ItemFacture:
+			size_hint_y: None
+			height: 50
+		ItemFacture:
+			size_hint_y: None
+			height: 50
+		ItemFacture:
+			size_hint_y: None
+			height: 50
+		ItemFacture:
+			size_hint_y: None
+			height: 50
+		ItemFacture:
+			size_hint_y: None
+			height: 50
+		ItemFacture:
+			size_hint_y: None
+			height: 50
+		ItemFacture:
+			size_hint_y: None
+			height: 50
+		ItemFacture:
+			size_hint_y: None
+			height: 50
+		ItemFacture:
+			size_hint_y: None
+			height: 50
+
+
+<MenuVente@GridLayout>
+	rows: 1
+	Label:
+		size_hint_x: None
+		width: 150
+		text: 'Ajouter au panier :'
+
+
+<FinNouvelleFacture@GridLayout>
+	rows: 1
+	Button:
+		text: 'Ajouter la facture'
+	Button:
+		text: 'Supprimer la facture'
+	Button:
+		text: 'Payer la facture'
+	Label:
+		size_hint_x: None
+		width: 130
+		text: 'Total :'
+	TextInput:
+		size_hint_x: None
+		width: 80
+
+
+
+<FinModifFacture@GridLayout>
+	rows: 1
+	Button:
+		text: 'Enregistrer la modification'
+	Button:
+		text: 'Supprimer la facture'
+	Button:
+		text: 'Payer la facture'
+	Label:
+		size_hint_x: None
+		width: 130
+		text: 'Total :'
+	TextInput:
+		size_hint_x: None
+		width: 80
+
+
+<Separator@Widget>:
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<HSeparator@Separator>:
+    size_hint_y: None
+    height: dp(2)
+
+<VSeparator@Separator>:
+    size_hint_x: None
+    width: dp(1)
+
+###Save graph from graph tab on harddrive
+
+<SaveDialog>:
+    text_input: text_input
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        FileChooserListView:
+            id: filechooser
+            on_selection: text_input.text = self.selection and self.selection[0] or ''
+
+        TextInput:
+            id: text_input
+            size_hint_y: None
+            height: 30
+            multiline: False
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: "Cancel"
+                on_release: root.cancel()
+
+            Button:
+                text: "Save"
+                on_release: root.save(filechooser.path, text_input.text)
